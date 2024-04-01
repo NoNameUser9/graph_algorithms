@@ -5,48 +5,82 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <list>
+#include <unordered_map>
+#include <matplotlibcpp.h++>
 using namespace std;
+namespace plt = matplotlibcpp;
 
 class Graph
 {
-	unsigned int numVertices;
-	list<int> *adjLists;
+private:
+    unordered_map<int, vector<int>> adjList;
 
 public:
-	explicit Graph(unsigned int vertices);
+    void
+    addEdge(int source, int destination)
+    {
+        adjList[source].push_back(destination);
+        // Для неориентированного графа добавьте следующую строчку
+        // adjList[destination].push_back(source);
+    }
 
-	void
-	addEdge(int src, int dest);
+    void
+    saveGraphToFile(const string& filename)
+    {
+        ofstream file(filename);
+        if (!file.is_open())
+        {
+            cout << "Unable to open file" << endl;
+            return;
+        }
 
-	void
-	printGraph();
+        for (auto const& [node, neighbors] : adjList)
+        {
+            file << node << " ";
+            for (int neighbor : neighbors)
+            {
+                file << neighbor << " ";
+            }
+            file << endl;
+        }
+
+        file.close();
+    }
+
+    void
+    visualizeGraph()
+    {
+        vector<double> x, y;
+
+        for (auto const& [node, neighbors] : adjList)
+        {
+            for (int neighbor : neighbors)
+            {
+                x.push_back(node);
+                y.push_back(neighbor);
+            }
+        }
+
+        plt::plot(x, y, "ro-");
+        plt::title("Graph Visualization");
+        plt::grid(true);
+        plt::show();
+    }
+
+    auto size(){
+        return adjList.size();
+    }
+
+    auto at(size_t idx){
+        return adjList[idx].at(0);
+    }
 };
 
 // Initialize graph
-Graph::Graph(unsigned int vertices)
-{
-	numVertices = vertices;
-	adjLists = new list<int>[vertices];
-}
 
 // Add edges
-void
-Graph::addEdge(int src, int dest)
-{
-	adjLists[src].push_back(dest);
-}
 
 // Print the graph
-void
-Graph::printGraph()
-{
-	for (int i = 0; i < numVertices; i++)
-	{
-		cout << "\n Adjacency list of vertex " << i << "\n head ";
-		for (auto x : adjLists[i])
-			cout << "-> " << x;
-		cout << endl;
-	}
-}
