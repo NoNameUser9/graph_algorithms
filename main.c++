@@ -1,15 +1,14 @@
 #include "include/graph.h++"
 #include "include/breadth-first_search.h++"
-#include <matplotlibcpp.h++>
 #include "include/alg.h++"
 
-namespace plt = matplotlibcpp;
 // Driver code
 #include <iostream>
 
 int main() {
     // Создаем граф
-    Graph g;
+	int numv = 12;
+    Graph g{numv};
 
 //    // Добавляем вершины в граф
 //    auto v1 = g.add_vertex();

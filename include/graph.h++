@@ -9,74 +9,54 @@
 #include <vector>
 #include <list>
 #include <unordered_map>
-#include <matplotlibcpp.h++>
-using namespace std;
-namespace plt = matplotlibcpp;
+//#include <matplotlibcpp.h++>
+//using namespace std;
+//namespace plt = matplotlibcpp;
 
+// A simple undirected graph represented as an adjacency matrix
 class Graph
 {
 private:
-    unordered_map<int, vector<int>> adjList;
+	int numVertices;
+	std::vector<std::vector<bool>> adjMatrix;
 
 public:
-    void
-    addEdge(int source, int destination)
-    {
-        adjList[source].push_back(destination);
-        // Для неориентированного графа добавьте следующую строчку
-        // adjList[destination].push_back(source);
-    }
+	Graph(int n) : numVertices(n)
+	{
+		adjMatrix.resize(n, std::vector<bool>(n, false));
+	}
 
-    void
-    saveGraphToFile(const string& filename)
-    {
-        ofstream file(filename);
-        if (!file.is_open())
-        {
-            cout << "Unable to open file" << endl;
-            return;
-        }
+	void
+	addEdge(int u, int v)
+	{
+		adjMatrix[u][v] = true;
+		adjMatrix[v][u] = true;
+	}
 
-        for (auto const& [node, neighbors] : adjList)
-        {
-            file << node << " ";
-            for (int neighbor : neighbors)
-            {
-                file << neighbor << " ";
-            }
-            file << endl;
-        }
+	void
+	printGraph()
+	{
+		for (int i = 0; i < numVertices; ++i)
+		{
+			for (int j = 0; j < numVertices; ++j)
+			{
+				std::cout << adjMatrix[i][j] << " ";
+			}
+			std::cout << std::endl;
+		}
+	}
 
-        file.close();
-    }
+	bool
+	getEdge(int i, int j)
+	{
+		return adjMatrix[i][j];
+	}
 
-    void
-    visualizeGraph()
-    {
-        vector<double> x, y;
-
-        for (auto const& [node, neighbors] : adjList)
-        {
-            for (int neighbor : neighbors)
-            {
-                x.push_back(node);
-                y.push_back(neighbor);
-            }
-        }
-
-        plt::plot(x, y, "ro-");
-        plt::title("Graph Visualization");
-        plt::grid(true);
-        plt::show();
-    }
-
-    auto size(){
-        return adjList.size();
-    }
-
-    auto at(size_t idx){
-        return adjList[idx].at(0);
-    }
+	auto
+	getNumVertices()
+	{
+		return numVertices;
+	}
 };
 
 // Initialize graph

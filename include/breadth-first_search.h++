@@ -7,7 +7,6 @@
 #include <queue>
 #include <iostream>
 #include "graph.h++"
-#include <matplotlibcpp.h++>
 
 //std::vector<int> g[maxn];
 //
@@ -35,9 +34,6 @@
 //	}
 //}
 
-namespace plt = matplotlibcpp;
-
-using namespace std;
 
 //void bfs(TreeNode* root) {
 //    if (!root) return;
@@ -62,19 +58,5 @@ using namespace std;
 //        levels.push_back(current_level);
 //    }
 //
-//    // Визуализация уровней дерева при помощи matplotlibcpp
-//    plt::title("BFS tree traversal");
-//
-//    for (int i = 0; i < levels.size(); i++) {
-//        vector<double> x(levels[i].size());
-//        vector<double> y(levels[i].size());
-//        for (int j = 0; j < levels[i].size(); j++) {
-//            x[j] = j;
-//            y[j] = -i; // Отрицательное значение уровня для отображения вверху
-//        }
-//        plt::named_plot("Level " + std::to_string(i), x, y, "o");
-//    }
-//
-//    plt::legend();
-//    plt::show();
+
 //}
