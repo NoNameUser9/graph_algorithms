@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 
 n1, n2 = 0, 0
 num = int(input())
-
-G = nx.Graph()
+print("vertices=", num)
+G = nx.DiGraph()
 
 for i in range(num):
     G.add_node(i)
@@ -15,16 +15,30 @@ for i in range(num*num):
     if n1 == -1:
         break
     n2 = int(input())
-    print("i= {0}, j = {1}".format(n1, n2))
-    G.add_edge(n1, n2)
+    if n2 == -1:
+        break
+    w = int(input())
+    print("iiiii= {0} j = {1} w = {2}".format(n1, n2, w))
+    # G.add_weighted_edges_from(n1, n2, w)
+    G.add_edge(n1, n2, weight=w)
 
-dfs_nodes = list(nx.dfs_tree(G, source=0).nodes)
+# dfs_nodes = list(G.nodes)
 # print('DFS Nodes:', dfs_nodes)
-pos = nx.circular_layout(G)
 # dfs_nodes = list(nx.dfs_tree(G, source=0).nodes)
+dfs_nodes = []
+for i in range(num*num):
+    n = int(input())
+    print("ii = {0}".format(n))
+    if n == -1:
+        break
+    dfs_nodes.append(n)
+
+pos = nx.circular_layout(G)
 # print('DFS Nodes:', dfs_nodes)
 node_colors = ['b' if node in dfs_nodes else 'red' for node in G.nodes]
 plt.show()
+
+print(dfs_nodes)
 # plt.pause(10.0)
 for node in dfs_nodes:
     plt.cla()
