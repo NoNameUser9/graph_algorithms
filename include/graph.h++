@@ -22,7 +22,30 @@
 
 using namespace std;
 
+class Timer {
+public:
+	Timer() : start_time(std::chrono::steady_clock::now()) {}
 
+	void start() {
+		start_time = std::chrono::steady_clock::now();
+	}
+
+	void stop() {
+		end_time = std::chrono::steady_clock::now();
+	}
+
+	auto get(){
+		return (end_time - start_time).count();
+	}
+
+	void reset() {
+		start_time = std::chrono::steady_clock::now();
+	}
+
+private:
+	std::chrono::steady_clock::time_point start_time;
+	std::chrono::steady_clock::time_point end_time;
+};
 // Инициализация графа
 
 
@@ -492,6 +515,8 @@ public:
     void
     Kruskal()
     {
+		Timer t;
+		t.start();
         vector<Edge> all_edges, result;
         // собираем все ребра в один список
         for (int i = 0; i < peaks; i++)
@@ -514,6 +539,9 @@ public:
         cout << "Алгоритм Краскала:" << endl;
         for (auto& edge : result)
             cout << edge.source << " --" << edge.weight << "--> " << edge.target << endl;
+
+		t.stop();
+		cout << "\ntime Kruskal is " << t.get() << "\n";
     }
     int
     min_key(vector<int>& key, vector<bool>& in_mst)
@@ -532,6 +560,8 @@ public:
     void
     Prima()
     {
+		Timer t;
+		t.start();
         vector<Edge> result;
         vector<int> key(peaks, INT_MAX); // хранение весов вершин
         vector<bool> in_mst(peaks, false); // отмечаем добавлена ли вершина
@@ -558,6 +588,9 @@ public:
         cout << "Алгоритм Прима:" << endl;
         for (auto& edge : result)
             cout << edge.source << " --" << edge.weight << "--> " << edge.target << endl;
+
+		t.stop();
+		cout << "\ntime Prima is " << t.get() << "\n";
     }
     void
     print_path(const vector<int>& predecessor, int v)
@@ -647,9 +680,9 @@ ch()
         graph.add_edge(2, 8, 12);
         graph.add_edge(5, 7, 7);
 //        graph.add_edge(7, 5, 4);
-        graph.add_edge(7, 8, 4);
-        graph.add_edge(8, 7, 4);
-        graph.add_edge(8, 5, 7);
+//        graph.add_edge(7, 8, 4);
+//        graph.add_edge(8, 7, 4);
+//        graph.add_edge(8, 5, 7);
 
         return graph;
     }
